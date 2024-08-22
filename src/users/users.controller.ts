@@ -2,9 +2,12 @@ import { Controller, Get, Post, Param, Query, Body, Req, Headers, Ip, ParseIntPi
 import { CreateUserDto } from './dtos/create-user.dto';
 import { GetUsersParamDto } from './dtos/get-users-param.dto';
 import { PatchUserDto } from './dtos/patch-users-dto';
+import { UsersService } from './users.service'
 
 @Controller('users')
 export class UsersController {
+    constructor(private readonly usersService: UsersService){}
+
     // @Get('/:id?')
     // getUsers(
     //     @Param('id',ParseIntPipe) id: number | undefined, 
@@ -25,10 +28,7 @@ export class UsersController {
         @Query('page',new DefaultValuePipe(101),ParseIntPipe) page: number,
     )
     {
-        console.log(limit);
-        console.log(page);
-        
-        return "id"
+        return this.usersService.findAll(getUsersParamDto,limit,page)
     }
 
     // @Post()
