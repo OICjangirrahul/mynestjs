@@ -1,0 +1,5 @@
+## Get Req For Users Concroller
+
+GET http://localhost:3000/users/1/
+?limit=10
+&page=2
