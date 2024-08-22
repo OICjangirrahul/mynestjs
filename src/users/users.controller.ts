@@ -3,8 +3,10 @@ import { CreateUserDto } from './dtos/create-user.dto';
 import { GetUsersParamDto } from './dtos/get-users-param.dto';
 import { PatchUserDto } from './dtos/patch-users-dto';
 import { UsersService } from './users.service'
+import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller('users')
+@ApiTags('Users')
 export class UsersController {
     constructor(private readonly usersService: UsersService){}
 
@@ -22,8 +24,29 @@ export class UsersController {
     // }
 
     @Get('/:id?')
+    @ApiOperation({
+        summary: "fatch a list of registered users of the app"
+    })
+    @ApiResponse({
+        status:200,
+        description: "user fatch successfully"
+    })
+    @ApiQuery({
+        name: 'limit',
+        type: 'number',
+        required: false,
+        description: 'the number of enties returned per query',
+        example: 10,
+    })
+    @ApiQuery({
+        name: 'page',
+        type: 'number',
+        required: false,
+        description: 'the postion of the page number that you want the api to retun',
+        example: 1,
+    })
     getUsers(
-        @Param('id') getUsersParamDto: GetUsersParamDto, 
+        @Param() getUsersParamDto: GetUsersParamDto, 
         @Query('limit',new DefaultValuePipe(100), ParseIntPipe) limit: number,
         @Query('page',new DefaultValuePipe(101),ParseIntPipe) page: number,
     )
